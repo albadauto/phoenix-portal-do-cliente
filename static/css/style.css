@@ -1,0 +1,14 @@
+.btn-danger:visited,
+.btn-danger:active,
+.btn-danger:hover {
+    background-color: black !important;
+    border-color: black !important;
+}
+.btn-danger{
+    background-color: #8F0000;
+    border-color: #8F0000;
+    font-weight: bold !important;
+}
+
+
+
