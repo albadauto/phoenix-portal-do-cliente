@@ -1,32 +1,41 @@
 {% extends 'base_login/base.html' %}
 {% load static %}
 {% block login_content %}
-    <div class="text-center mt-5 mb-5">
-        <div class="row">
-            <div class="col">
-                <img src="{% static 'img/logo.png' %}" alt="">
-            </div>
+<div class="text-center mt-5 mb-5">
+    <div class="row">
+        <div class="col">
+            <img src="{% static 'img/logo.png' %}" alt="">
         </div>
-        <h2 style="font-weight: bold;" class="mt-5">Portal do cliente - Área de Login</h2>
-
+    </div>
+    <h2 style="font-weight: bold;" class="mt-5">Portal do cliente - Área de Login</h2>
+    <form action="{% url 'app_login:login' %}" method="post">
+        {% csrf_token %}
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="username">
                     <label for="floatingInput">Usuário</label>
-                  </div>
+                </div>
             </div>
         </div>
 
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
                     <label for="floatingPassword">Senha</label>
-                  </div>
+                </div>
             </div>
         </div>
-
-        <button type="submit" class="btn btn-danger btn-main mt-5 mb-5"><h4>Entrar como cliente</h4></button>
-    </div>
+        {% for message in messages %}
+            <div class="alert alert-danger mt-5">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-danger btn-main mt-5 mb-5">
+            <h4>Entrar como cliente</h4>
+        </button>
+    </form>
+    
+</div>
 {% endblock login_content %}

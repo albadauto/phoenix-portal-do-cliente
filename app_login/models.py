@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
+class TUSER(models.Model):
+    name = models.TextField(max_length=255)
+    password = models.TextField(max_length=255)
