@@ -1,14 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@200&display=swap");
+
+body {
+  font-family: "Exo 2", sans-serif;
+  font-weight: 1 !important;
+}
+
 .btn-danger:visited,
 .btn-danger:active,
 .btn-danger:hover {
-    background-color: black !important;
-    border-color: black !important;
+  background-color: black !important;
+  border-color: black !important;
 }
-.btn-danger{
-    background-color: #8F0000;
-    border-color: #8F0000;
-    font-weight: bold !important;
+.btn-danger {
+  background-color: #8f0000;
+  border-color: #8f0000;
+  font-weight: bold !important;
 }
-
-
-
