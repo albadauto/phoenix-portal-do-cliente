@@ -1,23 +1,34 @@
-from django.shortcuts import render
-from django.core.exceptions import FieldDoesNotExist
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.core.exceptions import FieldDoesNotExist, ObjectDoesNotExist
 from app_call.models import TCALL
 from django.contrib.auth.decorators import login_required
 
+
 @login_required(login_url="app_login:login")
 def home(request):
-    return render(request, 'home/index.html', {"count": [1,2,3,4,5]})
+    try:
+        call = TCALL.objects.all().filter(login_id=request.session['user_id'])
+        if call is not None:
+            return render(request, 'home/index.html', {"call": call})
+    except ObjectDoesNotExist as e:
+        print(e)
 
 
-def createCall(request):
+@login_required(login_url="app_login:login")
+def create_call(request):
     try:
         if request.method == "POST":
-            info_to_insert = {
-                "description": request.POST.get("description"),
-                "isSolved": request.POST.get("isSolved")
-            }
+            call_inserted = TCALL.objects.all().filter(login_id=request.session['user_id'], isSolved=0)
+            if len(call_inserted) >= 3:
+                messages.error(request, "Você já tem 3 chamados para serem respondidos")
+                return redirect("app_call:call_home")
             tcall = TCALL()
-            tcall.description = info_to_insert["description"]
-            tcall.isSolved = info_to_insert["isSolved"]
+            tcall.description = request.POST.get("description")
+            tcall.title = request.POST.get("title")
+            tcall.login_id = request.session.get("user_id")
             tcall.save()
+            messages.success(request, "Novo chamado aberto com sucesso!")
+            return redirect("app_call:call_home")
     except FieldDoesNotExist as e:
         print("Deu erro")

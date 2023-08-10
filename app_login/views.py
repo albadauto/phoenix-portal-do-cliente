@@ -1,7 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist, FieldError
-from app_login.models import TUSER
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
@@ -20,7 +19,7 @@ def login_user(request):
         else:
             return render(request, 'login/home.html')
 
-    except TUSER.DoesNotExist:
+    except User.DoesNotExist:
         messages.error(request, "Usuário não existente. Favor contatar o administrador", )
         return render(request, 'login/home.html')
     except ObjectDoesNotExist as obj:
@@ -39,6 +38,8 @@ def test_register_admin(request):
 def logout_user(request):
     logout(request=request)
     return redirect("app_login:login")
+
+
 
 
     

@@ -1,74 +1,125 @@
 {% extends 'base/base.html' %}
 {% block main_content %}
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-  </button>
+    <!-- Button trigger modal -->
+
     <div class="row">
         <div class="col text-center">
             <h4>Chamados não respondidos</h4>
         </div>
     </div>
-    {% for i in count %}
-    <div class="row mt-5">
-       
-        <div class="col">
-            <div class="card">
-                <div class="bg-danger">
-                    <div class="text-center"><h5 style="color: white;">Não respondido</h5></div>
+     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Inserir novo chamado
+    </button>
+    <div class="row mt-3">
+        <div class="col text-center">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                <div class="alert alert-success">
+                    {{ message }}
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            Chamado número: <b>124</b>
+                {% elif message.tags == 'error' %}
+                    <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+                {% endif %}
+            {% endfor %}
 
-                        </div>
+        </div>
+    </div>
+    {% if call is not None %}
+    {% for i in call %}
+        <div class="row mt-5">
+
+            <div class="col">
+                <div class="card">
+                {% if call.isSolved == True %}
+                    <div class="bg-success">
+                        <div class="text-center"><h5 style="color: white;"> Respondido </h5></div>
                     </div>
-
-                    <div class="row">
-                        <div class="col">
-                            Descrição: Descriçao bem legal
-                        </div>
+                {% else %}
+                     <div class="bg-danger">
+                        <div class="text-center"><h5 style="color: white;"> Não respondido </h5></div>
                     </div>
-                    {% if False %}
-                    <div class="row">
-                        <div class="col">
-                            Resposta: Resposta bem legal
+                {% endif %}
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                Chamado número: <b>124</b>
+
+                            </div>
                         </div>
-                    </div>
-                    {% endif %}
+
+                        <div class="row">
+                            <div class="col">
+                                Descrição: {{ i.description }}
+                            </div>
+                        </div>
+                        {% if False %}
+                            <div class="row">
+                                <div class="col">
+                                    Resposta: Resposta bem legal
+                                </div>
+                            </div>
+                        {% endif %}
 
 
-                    <div class="row mt-4">
-                        <div class="col text-center">
-                            <button type="button" class="btn btn-outline-success">Solucionado</button>
-                        </div>
-                        <div class="col text-center">
-                            <button type="button" class="btn btn-outline-danger">Não solucionado</button>
+                        <div class="row mt-4">
+                            <div class="col text-center">
+                                <button type="button" class="btn btn-outline-success">Solucionado</button>
+                            </div>
+                            <div class="col text-center">
+                                <button type="button" class="btn btn-outline-danger">Não solucionado</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     {% endfor %}
+    {% else %}
+        <div class="alert alert-danger">
+            Não há chamados para serem mostrados, clique em inserir novo chamado para abrir.
+        </div>
+    {% endif %}
+    <form action="{% url 'app_call:create_call' %}" method="post">
+        {% csrf_token %}
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Inserir novo chamado</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'app_call:create_call' %}" method="post">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="text" name="title" id="" class="form-control"
+                                               placeholder="Título do chamado">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3 mt-3">
 
-    <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                  rows="10" placeholder="Descrição do chamado"
+                                                  name="description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
+    </form>
 {% endblock %}

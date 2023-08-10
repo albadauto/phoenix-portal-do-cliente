@@ -1,5 +1,17 @@
 {% extends 'base/base.html' %}
 
 {% block main_content %}
-    <h1>Bem vindo(a) {{ request.session.user_id }}</h1>
+    <div class="row">
+        <div class="col text-center">
+            <h3>Bem vindo(a) ao portal do cliente - Phoenix</h3>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col">
+            Empresa: Nome da empresa
+            Owner: Nome do Dono
+
+        </div>
+    </div>
 {% endblock main_content %}
