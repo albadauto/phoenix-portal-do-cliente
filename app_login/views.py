@@ -12,6 +12,7 @@ def login_user(request):
             user = authenticate(username=dict["name"], password=dict["password"])
             if user:
                 login(request, user)
+                request.session["user_id"] = User.objects.get(username=dict["name"]).pk             
                 return redirect("app_home:main")
             else:
                 messages.error(request, "Erro: Login ou senha inválido(s)")
@@ -38,4 +39,6 @@ def test_register_admin(request):
 def logout_user(request):
     logout(request=request)
     return redirect("app_login:login")
+
+
     
