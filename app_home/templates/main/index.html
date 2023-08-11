@@ -1,5 +1,4 @@
 {% extends 'base/base.html' %}
-
 {% block main_content %}
     <div class="row">
         <div class="col text-center">
@@ -9,8 +8,28 @@
 
     <div class="row mt-5">
         <div class="col">
-            Empresa: Nome da empresa
-            Owner: Nome do Dono
+            <table class="table table-sm table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Título</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Resolvido</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if calls is not None %}
+                    {% for call in calls %}
+                        <tr>
+                            <th scope="row">{{ call.title }}</th>
+                            <td>{{ call.description }}</td>
+                            <td>{{ call.is_solved|yesno:"Resolvido, Não resolvido" }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <h4>Não há chamados ativos no momento. Está precisando de uma manutenção? Abra um chamado!</h4>
+                {% endif %}
+                </tbody>
+            </table>
 
         </div>
     </div>

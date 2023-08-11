@@ -4,6 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist, FieldError
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
+
 def login_user(request):
     try:
         if request.method == 'POST':
@@ -11,20 +12,19 @@ def login_user(request):
             user = authenticate(username=dict["name"], password=dict["password"])
             if user:
                 login(request, user)
-                request.session["user_id"] = User.objects.get(username=dict["name"]).pk             
+                request.session["user_id"] = User.objects.get(username=dict["name"]).pk
                 return redirect("app_home:main")
             else:
-                messages.error(request, "Erro: Login ou senha inválido(s)")
+                messages.error(request, "Erro: Login ou senha inválido(s) Favor, contatar a JR Smarts Softwares (contato@jrsoftwares.com.br)")
                 return render(request, 'login/home.html')
         else:
             return render(request, 'login/home.html')
 
     except User.DoesNotExist:
-        messages.error(request, "Usuário não existente. Favor contatar o administrador", )
         return render(request, 'login/home.html')
     except ObjectDoesNotExist as obj:
         print(f"Erro: Por favor contatar um administrador. Mensagem original: {obj}")
-    
+
 
 def test_register_admin(request):
     try:
@@ -38,8 +38,3 @@ def test_register_admin(request):
 def logout_user(request):
     logout(request=request)
     return redirect("app_login:login")
-
-
-
-
-    

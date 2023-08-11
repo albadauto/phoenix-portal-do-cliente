@@ -19,7 +19,7 @@ def home(request):
 def create_call(request):
     try:
         if request.method == "POST":
-            call_inserted = TCALL.objects.all().filter(login_id=request.session['user_id'], isSolved=0)
+            call_inserted = TCALL.objects.all().filter(login_id=request.session['user_id'], is_solved=0)
             if len(call_inserted) >= 3:
                 messages.error(request, "Você já tem 3 chamados para serem respondidos")
                 return redirect("app_call:call_home")
