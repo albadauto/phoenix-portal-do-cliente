@@ -8,4 +8,5 @@ class TCALL(models.Model):
     is_answered = models.BooleanField(default=False)
     date_inserted = models.DateField(default=date.today())
     login = models.ForeignKey(User, on_delete=models.CASCADE)
-
+    hours_to_resolve = models.IntegerField()
+    hours_resolved = models.IntegerField(default=0)

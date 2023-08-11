@@ -4,7 +4,6 @@ from django.core.exceptions import FieldDoesNotExist, ObjectDoesNotExist
 from app_call.models import TCALL
 from django.contrib.auth.decorators import login_required
 
-
 @login_required(login_url="app_login:login")
 def home(request):
     try:
@@ -27,8 +26,13 @@ def create_call(request):
             tcall.description = request.POST.get("description")
             tcall.title = request.POST.get("title")
             tcall.login_id = request.session.get("user_id")
+            tcall.hours_to_resolve = 9
+            tcall.hours_resolved = 9
             tcall.save()
             messages.success(request, "Novo chamado aberto com sucesso!")
             return redirect("app_call:call_home")
     except FieldDoesNotExist as e:
         print("Deu erro")
+
+
+
